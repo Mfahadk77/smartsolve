@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartSolve Technologies — AI-Powered Problem Solving</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --teal:#0F6B5C;--teal2:#1A8870;--teal-light:#E1F5EE;--teal-mid:#5DCAA5;
+  --dark:#0A0F0E;--dark2:#111816;--mid:#1E2825;
+  --text:#F0FAF7;--text2:#A8C4BE;--text3:#6B9990;
+  --gold:#C9A84C;--gold2:#F2D06B;
+  --white:#FAFFFE;--border:rgba(26,136,112,0.18);
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--text);line-height:1.7;overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 2rem;height:68px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:rgba(10,15,14,0.85);backdrop-filter:blur(12px)}
+.nav-logo{font-family:'Sora',sans-serif;font-size:1.2rem;font-weight:700;color:var(--text);letter-spacing:-0.02em}
+.nav-logo span{color:var(--teal-mid)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-size:0.875rem;color:var(--text2);text-decoration:none;transition:color 0.2s}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{background:var(--teal);color:var(--white);padding:0.5rem 1.25rem;border-radius:6px;font-size:0.875rem;font-weight:500;text-decoration:none;transition:background 0.2s}
+.nav-cta:hover{background:var(--teal2)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6rem 2rem 4rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(15,107,92,0.15) 0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(93,202,165,0.1);border:1px solid rgba(93,202,165,0.25);border-radius:999px;padding:0.35rem 1rem;font-size:0.8rem;color:var(--teal-mid);letter-spacing:0.04em;margin-bottom:2rem;animation:fadeUp 0.6s ease both}
+.hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--teal-mid);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+h1{font-family:'Sora',sans-serif;font-size:clamp(2.6rem,6vw,4.5rem);font-weight:700;line-height:1.08;letter-spacing:-0.03em;max-width:800px;margin-bottom:1.5rem;animation:fadeUp 0.7s 0.1s ease both}
+h1 .accent{color:var(--teal-mid)}
+.hero-sub{font-size:clamp(1rem,2vw,1.2rem);color:var(--text2);max-width:560px;line-height:1.7;margin-bottom:2.5rem;animation:fadeUp 0.7s 0.2s ease both}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;animation:fadeUp 0.7s 0.3s ease both}
+.btn-primary{background:var(--teal);color:var(--white);padding:0.85rem 2rem;border-radius:8px;font-size:1rem;font-weight:500;text-decoration:none;transition:all 0.2s;border:none;cursor:pointer}
+.btn-primary:hover{background:var(--teal2);transform:translateY(-1px)}
+.btn-secondary{background:transparent;color:var(--text);padding:0.85rem 2rem;border-radius:8px;font-size:1rem;font-weight:400;text-decoration:none;border:1px solid var(--border);transition:all 0.2s;cursor:pointer}
+.btn-secondary:hover{border-color:rgba(93,202,165,0.4);color:var(--teal-mid)}
+.hero-note{margin-top:1.5rem;font-size:0.8rem;color:var(--text3);animation:fadeUp 0.7s 0.4s ease both}
+
+/* FLOATING CARDS */
+.hero-cards{display:flex;gap:1rem;margin-top:4rem;flex-wrap:wrap;justify-content:center;animation:fadeUp 0.8s 0.5s ease both}
+.float-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:1rem 1.25rem;max-width:200px;text-align:left}
+.float-card-icon{font-size:1.25rem;margin-bottom:0.5rem}
+.float-card p{font-size:0.8rem;color:var(--text2);line-height:1.5}
+.float-card strong{display:block;font-size:0.85rem;color:var(--text);font-weight:500;margin-bottom:0.25rem}
+
+/* HOW IT WORKS */
+.section{padding:6rem 2rem;max-width:1100px;margin:0 auto}
+.section-label{font-size:0.75rem;letter-spacing:0.12em;color:var(--teal-mid);text-transform:uppercase;margin-bottom:1rem}
+.section-title{font-family:'Sora',sans-serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:600;letter-spacing:-0.02em;line-height:1.2;margin-bottom:1rem}
+.section-sub{font-size:1rem;color:var(--text2);max-width:520px;margin-bottom:3rem}
+
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem}
+.step{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:14px;padding:1.5rem;position:relative;transition:border-color 0.2s}
+.step:hover{border-color:rgba(93,202,165,0.35)}
+.step-num{font-family:'Sora',sans-serif;font-size:2.5rem;font-weight:700;color:rgba(93,202,165,0.15);line-height:1;margin-bottom:0.75rem}
+.step h3{font-size:1rem;font-weight:500;margin-bottom:0.5rem;color:var(--text)}
+.step p{font-size:0.875rem;color:var(--text2);line-height:1.6}
+
+/* SUBMIT BOX — DEMO */
+.demo-wrap{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:20px;padding:2.5rem;max-width:680px;margin:0 auto}
+.demo-wrap h2{font-family:'Sora',sans-serif;font-size:1.5rem;font-weight:600;margin-bottom:0.5rem;letter-spacing:-0.02em}
+.demo-wrap p{font-size:0.9rem;color:var(--text2);margin-bottom:1.5rem}
+.demo-chips{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.5rem}
+.chip{background:rgba(93,202,165,0.08);border:1px solid rgba(93,202,165,0.2);border-radius:999px;padding:0.3rem 0.85rem;font-size:0.8rem;color:var(--teal-mid);cursor:pointer;transition:all 0.2s}
+.chip:hover,.chip.active{background:rgba(93,202,165,0.18);border-color:rgba(93,202,165,0.45)}
+.demo-textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:10px;padding:1rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.9rem;resize:none;line-height:1.6;transition:border-color 0.2s;margin-bottom:1rem}
+.demo-textarea:focus{outline:none;border-color:rgba(93,202,165,0.5)}
+.demo-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.demo-note{font-size:0.78rem;color:var(--text3)}
+.demo-response{margin-top:1.5rem;background:rgba(15,107,92,0.1);border:1px solid rgba(93,202,165,0.2);border-radius:10px;padding:1.25rem;display:none}
+.demo-response.show{display:block;animation:fadeUp 0.4s ease}
+.demo-response p{font-size:0.875rem;color:var(--text2);line-height:1.7}
+.demo-response .tag{display:inline-block;background:rgba(93,202,165,0.15);color:var(--teal-mid);border-radius:4px;padding:0.15rem 0.5rem;font-size:0.75rem;margin-bottom:0.75rem}
+
+/* WHO WE ARE */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+@media(max-width:700px){.about-grid{grid-template-columns:1fr}}
+.about-text h2{font-family:'Sora',sans-serif;font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:600;letter-spacing:-0.02em;line-height:1.25;margin-bottom:1rem}
+.about-text p{font-size:0.95rem;color:var(--text2);line-height:1.8;margin-bottom:1rem}
+.about-text p strong{color:var(--teal-mid);font-weight:500}
+.team-cards{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.team-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:1rem}
+.team-avatar{width:40px;height:40px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-weight:700;font-size:0.85rem;color:var(--white);margin-bottom:0.75rem}
+.team-card h4{font-size:0.875rem;font-weight:500;margin-bottom:0.2rem}
+.team-card span{font-size:0.78rem;color:var(--teal-mid)}
+
+/* PRICING */
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem}
+.price-card{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:16px;padding:1.75rem;transition:all 0.2s}
+.price-card:hover{border-color:rgba(93,202,165,0.35);transform:translateY(-2px)}
+.price-card.featured{border-color:var(--teal);background:rgba(15,107,92,0.08)}
+.price-label{font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);margin-bottom:0.75rem}
+.price-amount{font-family:'Sora',sans-serif;font-size:2.2rem;font-weight:700;letter-spacing:-0.03em;margin-bottom:0.25rem}
+.price-amount span{font-size:1rem;font-weight:400;color:var(--text2)}
+.price-desc{font-size:0.85rem;color:var(--text2);margin-bottom:1.25rem;line-height:1.5}
+.price-features{list-style:none;display:flex;flex-direction:column;gap:0.5rem}
+.price-features li{font-size:0.85rem;color:var(--text2);display:flex;align-items:center;gap:0.5rem}
+.price-features li::before{content:'✓';color:var(--teal-mid);font-weight:600;flex-shrink:0}
+.badge-popular{display:inline-block;background:var(--teal);color:var(--white);font-size:0.7rem;padding:0.2rem 0.6rem;border-radius:4px;margin-bottom:0.75rem;font-weight:500}
+
+/* USE CASES */
+.use-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem}
+.use-card{border:1px solid var(--border);border-radius:14px;padding:1.5rem;transition:border-color 0.2s;cursor:default}
+.use-card:hover{border-color:rgba(93,202,165,0.35)}
+.use-icon{width:44px;height:44px;border-radius:10px;background:rgba(93,202,165,0.1);display:flex;align-items:center;justify-content:center;font-size:1.25rem;margin-bottom:1rem}
+.use-card h3{font-size:1rem;font-weight:500;margin-bottom:0.5rem}
+.use-card p{font-size:0.85rem;color:var(--text2);line-height:1.6}
+.use-example{margin-top:0.75rem;background:rgba(255,255,255,0.03);border-radius:6px;padding:0.6rem 0.75rem;font-size:0.8rem;color:var(--text3);font-style:italic}
+
+/* AI BUILT */
+.ai-section{background:rgba(255,255,255,0.015);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:5rem 2rem;text-align:center}
+.ai-logos{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;margin-top:2rem}
+.ai-pill{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:999px;padding:0.5rem 1.25rem;font-size:0.875rem;color:var(--text2)}
+
+/* FOOTER */
+footer{padding:3rem 2rem;text-align:center;border-top:1px solid var(--border)}
+footer p{font-size:0.85rem;color:var(--text3)}
+footer a{color:var(--teal-mid);text-decoration:none}
+.footer-logo{font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:0.75rem;color:var(--text)}
+.footer-logo span{color:var(--teal-mid)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease,transform 0.7s ease}
+.reveal.visible{opacity:1;transform:none}
+
+@media(max-width:600px){
+  nav{padding:0 1rem}
+  .nav-links{display:none}
+  .section{padding:4rem 1.25rem}
+  .hero{padding:5rem 1.25rem 3rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Smart<span>Solve</span></div>
+  <ul class="nav-links">
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#who">Who it's for</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#about">About us</a></li>
+    <li><a href="#music">Our AI work</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#try" class="nav-cta">Try for free</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">🤖 Built by students. Powered by AI.</div>
+  <h1>AI is everywhere.<br>We help you <span class="accent">use it right.</span></h1>
+  <p class="hero-sub">People are building websites, writing songs, editing videos, and running businesses with AI tools. SmartSolve helps you do the same — with expert-reviewed answers specific to your situation.</p>
+  <div class="hero-actions">
+    <a href="#try" class="btn-primary">Submit your first question free →</a>
+    <a href="#how" class="btn-secondary">See how it works</a>
+  </div>
+  <p class="hero-note">First submission free, no account needed · Then just $5/month for everything</p>
+
+  <div class="hero-cards">
+    <div class="float-card">
+      <div class="float-card-icon">🎓</div>
+      <strong>Students</strong>
+      <p>Get AI-guided answers for your specific coursework and projects</p>
+    </div>
+    <div class="float-card">
+      <div class="float-card-icon">🏪</div>
+      <strong>Small businesses</strong>
+      <p>Use AI to save time, automate tasks, and make better decisions</p>
+    </div>
+    <div class="float-card">
+      <div class="float-card-icon">🍽️</div>
+      <strong>Hospitality</strong>
+      <p>Custom AI tools for restaurants and hotels that fit how you work</p>
+    </div>
+    <div class="float-card">
+      <div class="float-card-icon">💼</div>
+      <strong>Freelancers</strong>
+      <p>Stay ahead with AI guidance specific to your field and clients</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<div style="max-width:1100px;margin:0 auto;padding:0 2rem" id="how">
+  <div class="reveal">
+    <p class="section-label">How it works</p>
+    <h2 class="section-title">From stuck to solved<br>in 24 hours</h2>
+    <p class="section-sub">AI does the research. We do the review. You get an answer you can actually trust.</p>
+  </div>
+  <div class="steps reveal">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>Submit your problem</h3>
+      <p>Describe what you are stuck on in plain language. No technical vocabulary needed. No account required for your first submission.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>AI researches it</h3>
+      <p>Tools like Claude and ChatGPT search through relevant sources and draft a structured, specific response to your situation.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>Humans review it</h3>
+      <p>A team member checks the response for accuracy, adds real context, and makes sure it actually answers your question before it goes back to you.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h3>You get your answer</h3>
+      <p>A clear, specific, and actionable response arrives within 24 hours — with sources and practical next steps included.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">05</div>
+      <h3>It helps the next person</h3>
+      <p>Answered questions get added to our knowledge base. Future users with similar problems can find the answer instantly.</p>
+    </div>
+  </div>
+</div>
+
+<!-- TRY IT -->
+<div style="max-width:1100px;margin:4rem auto;padding:0 2rem" id="try">
+  <div class="reveal demo-wrap">
+    <h2>Submit your question</h2>
+    <p>Describe what you are stuck on. We will research it using AI tools and send you a reviewed, specific answer within 24 hours.</p>
+    <div class="demo-chips" id="chip-wrap">
+      <span class="chip" onclick="setChip(this,'How do I use ChatGPT to write a better business proposal?')">Business proposal with AI</span>
+      <span class="chip" onclick="setChip(this,'What AI tools can a small restaurant use to save time?')">AI for restaurants</span>
+      <span class="chip" onclick="setChip(this,'How do I use AI to help debug my code?')">Debugging with AI</span>
+      <span class="chip" onclick="setChip(this,'Can AI help me create social media content for my shop?')">Social media content</span>
+    </div>
+    <form id="submit-form" action="https://formspree.io/f/maqzndrw" method="POST" onsubmit="handleSubmit(event)">
+      <input type="text" name="name" placeholder="Your name" required style="width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:10px;padding:0.85rem 1rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.9rem;margin-bottom:0.75rem;display:block;transition:border-color 0.2s" onfocus="this.style.borderColor='rgba(93,202,165,0.5)'" onblur="this.style.borderColor='var(--border)'">
+      <input type="email" name="email" placeholder="Your email (so we can send you the answer)" required style="width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:10px;padding:0.85rem 1rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.9rem;margin-bottom:0.75rem;display:block;transition:border-color 0.2s" onfocus="this.style.borderColor='rgba(93,202,165,0.5)'" onblur="this.style.borderColor='var(--border)'">
+      <select name="category" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:10px;padding:0.85rem 1rem;color:var(--text2);font-family:'DM Sans',sans-serif;font-size:0.9rem;margin-bottom:0.75rem;display:block;cursor:pointer">
+        <option value="">What is your question about? (optional)</option>
+        <option value="ai-tools">Using AI tools</option>
+        <option value="student">Student / academic</option>
+        <option value="small-business">Small business</option>
+        <option value="hospitality">Restaurant / hotel</option>
+        <option value="freelance">Freelance / creative work</option>
+        <option value="tech">Technical / coding</option>
+        <option value="other">Something else</option>
+      </select>
+      <input type="hidden" name="_replyto" id="replyto-field">
+      <input type="hidden" name="_subject" value="New SmartSolve Question Submitted">
+      <textarea class="demo-textarea" id="question-input" name="question" rows="4" placeholder="Describe your situation in plain language. The more detail you give, the more specific our answer can be. e.g. I run a small bakery and want to use AI to write Instagram captions but I do not know where to start." required></textarea>
+      <div class="demo-bottom">
+        <span class="demo-note">First question free &nbsp;·&nbsp; $5/month for unlimited &nbsp;·&nbsp; Answer within 24 hrs</span>
+        <button type="submit" class="btn-primary" id="submit-btn">Send my question →</button>
+      </div>
+    </form>
+    <div class="demo-response" id="success-box" style="display:none">
+      <span class="tag">✓ Question received</span>
+      <p>We have got your question. Expect a reviewed, AI-researched answer in your inbox within 24 hours. If you do not see it, check your spam folder or email us at <a href="mailto:fahadmohammed7007@gmail.com" style="color:var(--teal-mid)">fahadmohammed7007@gmail.com</a>.</p>
+    </div>
+  </div>
+</div>
+
+<!-- WHO IT'S FOR -->
+<div style="max-width:1100px;margin:0 auto;padding:0 2rem" id="who">
+  <p class="section-label reveal">Who it's for</p>
+  <div class="use-grid reveal">
+    <div class="use-card">
+      <div class="use-icon">🎓</div>
+      <h3>Students & learners</h3>
+      <p>You have already tried Google and ChatGPT. The results were either too general or not quite right for your situation. SmartSolve looks at your specific problem and gives you an answer that actually applies to you.</p>
+      <div class="use-example">"How do I use AI to help structure my business plan for this assignment?"</div>
+    </div>
+    <div class="use-card">
+      <div class="use-icon">🏪</div>
+      <h3>Small business owners</h3>
+      <p>You run things mostly alone and questions come up constantly — tax situations, tech issues, marketing decisions, legal letters you cannot quite understand. You need a straight answer the same day, without a $200 consultation fee.</p>
+      <div class="use-example">"Which AI tools can automate my customer follow-up emails?"</div>
+    </div>
+    <div class="use-card">
+      <div class="use-icon">🍽️</div>
+      <h3>Restaurants & hotels</h3>
+      <p>Most independent hospitality operators are still running core tasks manually. SmartSolve can answer your AI questions and build simple custom tools for reservations, scheduling, menus, and customer communication.</p>
+      <div class="use-example">"Can AI generate my weekly social media posts from my menu?"</div>
+    </div>
+    <div class="use-card">
+      <div class="use-icon">💼</div>
+      <h3>Freelancers & creators</h3>
+      <p>People are using AI to write music, edit videos, design logos, build websites, and run entire creative businesses. SmartSolve helps you figure out which tools apply to your work and how to get real results from them.</p>
+      <div class="use-example">"What is the best AI workflow for a freelance graphic designer?"</div>
+    </div>
+  </div>
+</div>
+
+<!-- AI BUILT SECTION -->
+<div class="ai-section reveal" style="margin-top:5rem">
+  <p class="section-label" style="text-align:center">Powered by</p>
+  <h2 class="section-title" style="text-align:center;max-width:600px;margin:0 auto 1rem">We use the best AI tools<br>so you don't have to figure them out alone</h2>
+  <p style="color:var(--text2);font-size:0.95rem;max-width:500px;margin:0 auto 2rem;text-align:center">AI is being used for everything — websites, songs, videos, businesses, code, design. We know these tools inside out and use them every day to answer your questions.</p>
+  <div class="ai-logos">
+    <span class="ai-pill">Claude (Anthropic)</span>
+    <span class="ai-pill">ChatGPT (OpenAI)</span>
+    <span class="ai-pill">Midjourney</span>
+    <span class="ai-pill">Gemini</span>
+    <span class="ai-pill">Perplexity</span>
+    <span class="ai-pill">No-code platforms</span>
+    <span class="ai-pill">+ more every week</span>
+  </div>
+</div>
+
+<!-- PRICING -->
+<div style="max-width:1100px;margin:0 auto;padding:5rem 2rem" id="pricing">
+  <div class="reveal">
+    <p class="section-label">Pricing</p>
+    <h2 class="section-title">Affordable for students.<br>Valuable for businesses.</h2>
+    <p class="section-sub" style="margin-bottom:3rem">Start free. Pay only when you see real value.</p>
+  </div>
+  <div class="pricing-grid reveal">
+    <div class="price-card featured" style="max-width:420px;margin:0 auto">
+      <span class="badge-popular">Simple. One plan. Everything included.</span>
+      <p class="price-label">SmartSolve Plan</p>
+      <div class="price-amount">$5 <span>/ month</span></div>
+      <p class="price-desc">One flat price. Every feature. No limits. No confusing tiers.</p>
+      <ul class="price-features">
+        <li>Unlimited question submissions</li>
+        <li>Expert-reviewed answers within 24 hours</li>
+        <li>Full access to the knowledge base</li>
+        <li>AI tool guidance for any topic</li>
+        <li>Priority response under 12 hours</li>
+        <li>Students, businesses, and freelancers — everyone pays the same</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div style="max-width:1100px;margin:0 auto;padding:2rem 2rem 6rem" id="about">
+  <div class="about-grid reveal">
+    <div class="about-text">
+      <p class="section-label">About us</p>
+      <h2>Four students. One big idea. Built with AI.</h2>
+      <p>We are students at <strong>Yorkville University</strong> in the Entrepreneurship program. None of us are professional developers. What we are is a team that has spent serious time learning how AI tools like <strong>Claude, ChatGPT</strong>, and others actually work — and we built SmartSolve using those same tools.</p>
+      <p>AI has made it possible for ordinary people to build websites, write songs, create businesses, and solve problems that used to require years of training. We want to help others do the same. SmartSolve is both our business and our proof that it works.</p>
+    </div>
+    <div>
+      <div class="team-cards">
+        <div class="team-card">
+          <div class="team-avatar">MF</div>
+          <h4>Mohd Fahad</h4>
+          <span>Operations Lead</span>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">BS</div>
+          <h4>Baljit Singh</h4>
+          <span>Development Lead</span>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">UT</div>
+          <h4>Ugyen T. Rigzin</h4>
+          <span>Marketing Lead</span>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">S</div>
+          <h4>Sumin</h4>
+          <span>Finance & Analysis</span>
+        </div>
+      </div>
+      <p style="font-size:0.8rem;color:var(--text3);margin-top:1rem;text-align:center">BUSI2153 Entrepreneurship · Yorkville University · 2026</p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+
+<!-- AI WORK PORTFOLIO -->
+<div style="max-width:1100px;margin:0 auto;padding:3rem 2rem" id="music">
+  <div class="reveal" style="text-align:center;margin-bottom:2.5rem">
+    <p class="section-label">Our AI work</p>
+    <h2 class="section-title">Everything you see here<br>was built using AI</h2>
+    <p style="color:var(--text2);font-size:0.95rem;max-width:560px;margin:0 auto">We are four students with no computer science degrees. Using AI tools like Claude and ChatGPT, we built a live game, a real inventory system, composed original music, and launched this website. This is exactly what SmartSolve helps others do.</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.25rem;margin-bottom:2.5rem" class="reveal">
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:border-color 0.2s" onmouseover="this.style.borderColor='rgba(93,202,165,0.4)'" onmouseout="this.style.borderColor='var(--border)'">
+      <div style="height:140px;background:linear-gradient(135deg,#1a0800,#FF6B00,#FF4500);display:flex;align-items:center;justify-content:center;font-size:3rem">🍉</div>
+      <div style="padding:1.25rem">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem">
+          <h3 style="font-size:1rem;font-weight:500;color:var(--text)">Slice Frenzy</h3>
+          <span style="background:rgba(255,107,0,0.12);border:1px solid rgba(255,107,0,0.25);border-radius:999px;padding:2px 10px;font-size:11px;color:#FF8C42">AI Game</span>
+        </div>
+        <p style="font-size:0.85rem;color:var(--text2);line-height:1.6;margin-bottom:1rem">A fully playable fruit-slicing arcade game with 3 game modes, leaderboard, combos, and lives — built entirely using AI. No game development experience required.</p>
+        <a href="https://slice-frenzy.netlify.app/" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:#FF6B00;color:#fff;padding:0.6rem 1.25rem;border-radius:8px;font-size:0.875rem;font-weight:500;text-decoration:none;transition:opacity 0.2s" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">Play the game →</a>
+      </div>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:border-color 0.2s" onmouseover="this.style.borderColor='rgba(93,202,165,0.4)'" onmouseout="this.style.borderColor='var(--border)'">
+      <div style="height:140px;background:linear-gradient(135deg,#0a0800,#3B1F00,#8B5E00);display:flex;align-items:center;justify-content:center;font-size:3rem">☕</div>
+      <div style="padding:1.25rem">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem">
+          <h3 style="font-size:1rem;font-weight:500;color:var(--text)">Chaiiwala Inventory</h3>
+          <span style="background:rgba(139,94,0,0.15);border:1px solid rgba(139,94,0,0.3);border-radius:999px;padding:2px 10px;font-size:11px;color:#C9853A">AI Business Tool</span>
+        </div>
+        <p style="font-size:0.85rem;color:var(--text2);line-height:1.6;margin-bottom:1rem">A real inventory management system for Chaiiwala New Westminster — with PIN login, order tracking, waste logging, spend history, and cloud sync. Built with AI for a real business.</p>
+        <a href="https://inventory-tech.netlify.app/" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:#8B5E00;color:#fff;padding:0.6rem 1.25rem;border-radius:8px;font-size:0.875rem;font-weight:500;text-decoration:none;transition:opacity 0.2s" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">View the system →</a>
+      </div>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:border-color 0.2s" onmouseover="this.style.borderColor='rgba(93,202,165,0.4)'" onmouseout="this.style.borderColor='var(--border)'">
+      <div style="height:140px;background:linear-gradient(135deg,#1a0a00,#6B3A1F,#C9853A);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px">
+        <div id="aring2" style="width:52px;height:52px;border-radius:50%;border:2px solid rgba(201,133,58,0.7);display:flex;align-items:center;justify-content:center">
+          <div style="width:14px;height:14px;border-radius:50%;background:#6B3A1F;border:2px solid rgba(201,133,58,0.9)"></div>
+        </div>
+        <p style="color:#F5DEB3;font-size:12px;font-weight:500">روح الأمل</p>
+      </div>
+      <div style="padding:1.25rem">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem">
+          <h3 style="font-size:1rem;font-weight:500;color:var(--text)">Ruh Al-Amal</h3>
+          <span style="background:rgba(201,133,58,0.1);border:1px solid rgba(201,133,58,0.25);border-radius:999px;padding:2px 10px;font-size:11px;color:#C9853A">AI Music</span>
+        </div>
+        <p style="font-size:0.85rem;color:var(--text2);line-height:1.6;margin-bottom:1rem">An original Arabic instrumental in Maqam Hijaz — oud, nay flute, darbuka, and riq tambourine. Composed entirely using AI code. No studio. No instruments. No music degree.</p>
+        <button onclick="scrollToMusic()" style="display:inline-flex;align-items:center;gap:6px;background:#C9853A;color:#fff;padding:0.6rem 1.25rem;border-radius:8px;font-size:0.875rem;font-weight:500;border:none;cursor:pointer;transition:opacity 0.2s" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">▶ Listen below →</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="reveal" style="background:rgba(93,202,165,0.05);border:1px solid rgba(93,202,165,0.15);border-radius:16px;padding:1.5rem;max-width:860px;margin:0 auto 3rem;text-align:center">
+    <p style="font-size:0.95rem;color:var(--text);font-weight:500;margin-bottom:0.4rem">This is SmartSolve in action.</p>
+    <p style="font-size:0.875rem;color:var(--text2);line-height:1.7">A game. A real business tool. Original music. A live website. All built by four students using AI — no coding degree, no music training, no professional development background. If we can do this, imagine what SmartSolve can help you build.</p>
+  </div>
+
+  <div id="arabic-player">
+    <div class="reveal" style="text-align:center;margin-bottom:1.5rem">
+      <p class="section-label">AI original music</p>
+      <h2 class="section-title" style="font-size:1.8rem">Ruh Al-Amal — روح الأمل</h2>
+      <p style="color:var(--text2);font-size:0.875rem">Arabic Maqam Hijaz · Oud, Nay & Darbuka · AI-generated</p>
+    </div>
+  <div class="reveal" style="background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:20px;padding:2rem;max-width:560px;margin:0 auto">
+    <div style="width:100%;height:160px;border-radius:14px;background:linear-gradient(135deg,#0A0F0E 0%,#0F6B5C 50%,#1A8870 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:1.5rem;position:relative;overflow:hidden">
+      <div id="albumRing" style="width:72px;height:72px;border-radius:50%;border:3px solid rgba(93,202,165,0.6);display:flex;align-items:center;justify-content:center">
+        <div style="width:18px;height:18px;border-radius:50%;background:#0F6B5C;border:3px solid rgba(93,202,165,0.8)"></div>
+      </div>
+      <p style="color:#E1F5EE;font-size:14px;font-weight:500;margin-top:12px">Rise of the Future</p>
+      <p style="color:rgba(161,220,200,0.7);font-size:11px;margin-top:3px">SmartSolve Technologies · AI Original · 2026</p>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem">
+      <div style="flex:1">
+        <p style="font-size:15px;font-weight:500;color:var(--text)">Rise of the Future</p>
+        <p style="font-size:12px;color:var(--text2);margin-top:2px">SmartSolve Technologies · AI-generated music</p>
+      </div>
+      <span style="background:rgba(93,202,165,0.1);border:1px solid rgba(93,202,165,0.25);border-radius:999px;padding:3px 10px;font-size:11px;color:var(--teal-mid)">AI Original</span>
+    </div>
+
+    <div style="margin-bottom:1rem">
+      <div id="mProgBar" style="width:100%;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;cursor:pointer;margin-bottom:6px" onclick="mSeek(event)">
+        <div id="mProgFill" style="height:100%;background:#0F6B5C;border-radius:2px;width:0%;transition:width 0.05s linear"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3)">
+        <span id="mCurTime">0:00</span>
+        <span>2:00</span>
+      </div>
+    </div>
+
+    <div id="mViz" style="display:flex;align-items:flex-end;justify-content:center;gap:2px;height:32px;margin-bottom:1.25rem"></div>
+
+    <div style="display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:1.25rem">
+      <button onclick="mRestart()" style="width:36px;height:36px;border-radius:50%;background:transparent;border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text2);font-size:14px;transition:all 0.2s" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">&#9664;&#9664;</button>
+      <button id="mPlayBtn" onclick="mToggle()" style="width:52px;height:52px;border-radius:50%;background:#0F6B5C;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;transition:opacity 0.2s" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">&#9654;</button>
+      <button id="mLoopBtn" onclick="mLoopToggle()" style="width:36px;height:36px;border-radius:50%;background:transparent;border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text2);font-size:13px;transition:all 0.2s" title="Loop" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">&#8635;</button>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:8px">
+      <span style="font-size:12px;color:var(--text3)">&#128266;</span>
+      <input type="range" min="0" max="100" value="70" id="mVol" oninput="mSetVol(this.value)" style="flex:1;accent-color:#0F6B5C">
+      <span id="mVolVal" style="font-size:12px;color:var(--text3);min-width:28px">70</span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var viz=document.getElementById('mViz');
+  var vbars=[];
+  for(var i=0;i<38;i++){
+    var b=document.createElement('div');
+    b.style.cssText='width:5px;border-radius:2px;background:#0F6B5C;height:4px;opacity:0.35;transition:height 0.08s ease';
+    viz.appendChild(b); vbars.push(b);
+  }
+
+  var mCtx=null,mGain=null,mPlaying=false,mLooping=false;
+  var mStart=0,mOffset=0,mRaf=null,mNodes=[];
+  var mVol=0.7;
+  var MDUR=120;
+
+  function mInit(){
+    if(mCtx) return;
+    mCtx=new(window.AudioContext||window.webkitAudioContext)();
+    mGain=mCtx.createGain(); mGain.gain.value=mVol; mGain.connect(mCtx.destination);
+  }
+
+  function mOsc(freq,type,s,e,vol,det){
+    var o=mCtx.createOscillator(),g=mCtx.createGain();
+    o.type=type||'sine'; o.frequency.value=freq;
+    if(det) o.detune.value=det;
+    o.connect(g); g.connect(mGain);
+    g.gain.setValueAtTime(0,s);
+    g.gain.linearRampToValueAtTime(vol,s+0.02);
+    g.gain.setValueAtTime(vol,e-0.05);
+    g.gain.linearRampToValueAtTime(0,e);
+    o.start(s); o.stop(e); mNodes.push(o,g);
+  }
+
+  function mKick(t){
+    var o=mCtx.createOscillator(),g=mCtx.createGain();
+    o.type='sine'; o.frequency.setValueAtTime(90,t);
+    o.frequency.exponentialRampToValueAtTime(30,t+0.18);
+    o.connect(g); g.connect(mGain);
+    g.gain.setValueAtTime(0.55,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.28);
+    o.start(t); o.stop(t+0.3); mNodes.push(o,g);
+  }
+
+  function mSnare(t){
+    var buf=mCtx.createBuffer(1,mCtx.sampleRate*0.14,mCtx.sampleRate);
+    var d=buf.getChannelData(0);
+    for(var i=0;i<d.length;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,2);
+    var s=mCtx.createBufferSource(),g=mCtx.createGain(),f=mCtx.createBiquadFilter();
+    f.type='bandpass'; f.frequency.value=2200;
+    s.buffer=buf; s.connect(f); f.connect(g); g.connect(mGain);
+    g.gain.setValueAtTime(0.28,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.14);
+    s.start(t); mNodes.push(s,g,f);
+  }
+
+  function mHat(t,v){
+    var buf=mCtx.createBuffer(1,mCtx.sampleRate*0.04,mCtx.sampleRate);
+    var d=buf.getChannelData(0);
+    for(var i=0;i<d.length;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,3);
+    var s=mCtx.createBufferSource(),g=mCtx.createGain(),f=mCtx.createBiquadFilter();
+    f.type='highpass'; f.frequency.value=9000;
+    s.buffer=buf; s.connect(f); f.connect(g); g.connect(mGain);
+    g.gain.setValueAtTime(v,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.04);
+    s.start(t); mNodes.push(s,g,f);
+  }
+
+  function mPad(freq,s,dur,vol){
+    ['sine','triangle'].forEach(function(tp,i){
+      var o=mCtx.createOscillator(),g=mCtx.createGain();
+      o.type=tp; o.frequency.value=freq*(i?2.005:1);
+      o.connect(g); g.connect(mGain);
+      g.gain.setValueAtTime(0,s);
+      g.gain.linearRampToValueAtTime(vol*(i?0.25:1),s+1.2);
+      g.gain.setValueAtTime(vol*(i?0.25:1),s+dur-0.8);
+      g.gain.linearRampToValueAtTime(0,s+dur);
+      o.start(s); o.stop(s+dur); mNodes.push(o,g);
+    });
+  }
+
+  function mBuild(base){
+    var beat=0.5;
+    var chords=[[130.81,164.81,196],[110,138.59,164.81],[174.61,220,261.63],[146.83,196,246.94]];
+    var scale=[0,2,4,7,9]; var root=130.81;
+    for(var bar=0;bar<32;bar++){
+      var t=base+bar*beat*4; var ch=chords[bar%4];
+      ch.forEach(function(f){ mPad(f,t,beat*4,0.035); });
+      mOsc(ch[0]*0.5,'sine',t,t+beat*0.85,0.16);
+      mOsc(ch[0]*0.5,'sine',t+beat*2,t+beat*2.85,0.13);
+      if(bar>3){
+        var ni=(bar*3)%scale.length;
+        var mf=root*Math.pow(2,scale[ni]/12)*2;
+        mOsc(mf,'triangle',t+beat*0.5,t+beat*1.4,0.055);
+        mOsc(mf*Math.pow(2,scale[(ni+2)%5]/12),'triangle',t+beat*1.5,t+beat*2.3,0.048);
+        mOsc(mf*Math.pow(2,scale[(ni+4)%5]/12),'triangle',t+beat*2.5,t+beat*3.3,0.052);
+      }
+      if(bar>7){ ch.forEach(function(f,i){ mOsc(f*2,'sawtooth',t+beat*(i*0.33),t+beat*(i*0.33+0.27),0.022); }); }
+      mKick(t); mKick(t+beat*2);
+      if(bar>3) mKick(t+beat*3.5);
+      if(bar>1){ mSnare(t+beat); mSnare(t+beat*3); }
+      if(bar>3) for(var h=0;h<8;h++) mHat(t+beat*h*0.5,0.07+(h%2)*0.04);
+    }
+    mGain.gain.setValueAtTime(mVol,base+MDUR-3);
+    mGain.gain.linearRampToValueAtTime(0,base+MDUR);
+  }
+
+  function mStopAll(){ mNodes.forEach(function(n){try{n.stop&&n.stop(0)}catch(e){}}); mNodes=[]; }
+
+  function mStartTrack(offset){
+    mStopAll();
+    if(mGain){mGain.disconnect();mGain=null;}
+    mGain=mCtx.createGain(); mGain.gain.value=mVol; mGain.connect(mCtx.destination);
+    var now=mCtx.currentTime;
+    mBuild(now-offset); mStart=now-offset;
+  }
+
+  window.mToggle=function(){
+    mInit();
+    if(!mPlaying){
+      mPlaying=true;
+      document.getElementById('mPlayBtn').innerHTML='&#9646;&#9646;';
+      document.getElementById('albumRing').style.animation='spin 4s linear infinite';
+      if(mCtx.state==='suspended') mCtx.resume();
+      mStartTrack(mOffset);
+      mRaf=requestAnimationFrame(mTick);
+    } else {
+      mPlaying=false;
+      mOffset=mCtx.currentTime-mStart;
+      mStopAll(); cancelAnimationFrame(mRaf);
+      document.getElementById('mPlayBtn').innerHTML='&#9654;';
+      document.getElementById('albumRing').style.animation='none';
+    }
+  };
+
+  function mTick(now){
+    if(!mPlaying) return;
+    var el=mCtx.currentTime-mStart;
+    var pct=Math.min(el/MDUR,1);
+    document.getElementById('mProgFill').style.width=(pct*100)+'%';
+    var s=Math.floor(el);
+    document.getElementById('mCurTime').textContent=Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+    vbars.forEach(function(b,i){
+      var h=Math.abs(Math.sin(now/500+i*0.45+el*2.2))*26+4;
+      b.style.height=Math.round(h)+'px'; b.style.opacity='0.9';
+    });
+    if(el>=MDUR){
+      if(mLooping){ mOffset=0; mStartTrack(0); }
+      else{
+        mPlaying=false; mOffset=0;
+        document.getElementById('mPlayBtn').innerHTML='&#9654;';
+        document.getElementById('albumRing').style.animation='none';
+        document.getElementById('mProgFill').style.width='0%';
+        document.getElementById('mCurTime').textContent='0:00';
+      }
+      return;
+    }
+    mRaf=requestAnimationFrame(mTick);
+  }
+
+  window.mSeek=function(e){
+    var r=e.currentTarget.getBoundingClientRect();
+    mOffset=(e.clientX-r.left)/r.width*MDUR;
+    if(mPlaying) mStartTrack(mOffset);
+    document.getElementById('mProgFill').style.width=((mOffset/MDUR)*100)+'%';
+  };
+
+  window.mRestart=function(){
+    mOffset=0;
+    if(mPlaying) mStartTrack(0);
+    document.getElementById('mProgFill').style.width='0%';
+    document.getElementById('mCurTime').textContent='0:00';
+  };
+
+  window.mLoopToggle=function(){
+    mLooping=!mLooping;
+    var btn=document.getElementById('mLoopBtn');
+    btn.style.color=mLooping?'#5DCAA5':'';
+    btn.style.borderColor=mLooping?'#5DCAA5':'';
+  };
+
+  window.mSetVol=function(v){
+    mVol=v/100; if(mGain) mGain.gain.value=mVol;
+    document.getElementById('mVolVal').textContent=v;
+  };
+})();
+</script>
+
+<!-- CONTACT -->
+<div style="max-width:1100px;margin:0 auto;padding:2rem 2rem 5rem" id="contact">
+  <div class="reveal" style="text-align:center;margin-bottom:3rem">
+    <p class="section-label">Contact us</p>
+    <h2 class="section-title">Get in touch</h2>
+    <p style="color:var(--text2);font-size:0.95rem;max-width:480px;margin:0 auto">Have a question about SmartSolve, want to discuss a custom project, or just want to say hello? We are students and we actually read every message.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;max-width:860px;margin:0 auto" class="reveal">
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:16px;padding:1.75rem">
+      <div style="width:44px;height:44px;border-radius:10px;background:rgba(93,202,165,0.1);display:flex;align-items:center;justify-content:center;font-size:1.25rem;margin-bottom:1rem">✉️</div>
+      <h3 style="font-size:1rem;font-weight:500;margin-bottom:0.4rem">Email us directly</h3>
+      <p style="font-size:0.85rem;color:var(--text2);margin-bottom:1rem;line-height:1.6">For questions about the platform, custom projects, or partnerships. We reply within 24 hours.</p>
+      <a href="mailto:fahadmohammed7007@gmail.com" style="color:var(--teal-mid);font-size:0.9rem;text-decoration:none;font-weight:500">fahadmohammed7007@gmail.com</a>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:16px;padding:1.75rem">
+      <div style="width:44px;height:44px;border-radius:10px;background:rgba(93,202,165,0.1);display:flex;align-items:center;justify-content:center;font-size:1.25rem;margin-bottom:1rem">💬</div>
+      <h3 style="font-size:1rem;font-weight:500;margin-bottom:0.4rem">Submit a question</h3>
+      <p style="font-size:0.85rem;color:var(--text2);margin-bottom:1rem;line-height:1.6">Have a real problem you need help with? Use the submission form and get an expert-reviewed answer within 24 hours.</p>
+      <a href="#try" style="color:var(--teal-mid);font-size:0.9rem;text-decoration:none;font-weight:500">Go to submission form →</a>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:16px;padding:1.75rem">
+      <div style="width:44px;height:44px;border-radius:10px;background:rgba(93,202,165,0.1);display:flex;align-items:center;justify-content:center;font-size:1.25rem;margin-bottom:1rem">🏗️</div>
+      <h3 style="font-size:1rem;font-weight:500;margin-bottom:0.4rem">Custom AI project?</h3>
+      <p style="font-size:0.85rem;color:var(--text2);margin-bottom:1rem;line-height:1.6">Restaurant, hotel, or small business that needs a custom AI-powered tool built? Book a free 30-minute scoping call.</p>
+      <a href="mailto:fahadmohammed7007@gmail.com?subject=Custom Project Inquiry — SmartSolve&body=Hi SmartSolve team, I am interested in a custom AI project for my business. Here is a brief description: " style="color:var(--teal-mid);font-size:0.9rem;text-decoration:none;font-weight:500">Book a free scoping call →</a>
+    </div>
+
+  </div>
+
+  <div class="reveal" style="max-width:860px;margin:2.5rem auto 0;background:rgba(15,107,92,0.08);border:1px solid rgba(93,202,165,0.2);border-radius:16px;padding:1.75rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap">
+    <div style="flex:1;min-width:200px">
+      <p style="font-size:0.9rem;font-weight:500;margin-bottom:0.3rem;color:var(--text)">We are students building something real.</p>
+      <p style="font-size:0.85rem;color:var(--text2);line-height:1.6">SmartSolve is a student startup from Yorkville University's Entrepreneurship program. Every question you submit helps us build a better platform. We take every message seriously.</p>
+    </div>
+    <a href="mailto:fahadmohammed7007@gmail.com" class="btn-primary" style="white-space:nowrap;flex-shrink:0">Send us a message →</a>
+  </div>
+</div>
+
+<footer>
+  <p class="footer-logo">Smart<span>Solve</span> Technologies</p>
+  <p style="margin-bottom:0.5rem">AI-powered problem solving for students, businesses, and hospitality operators</p>
+  <p>
+    <a href="mailto:fahadmohammed7007@gmail.com">fahadmohammed7007@gmail.com</a> &nbsp;·&nbsp;
+    <a href="https://smartsolve-tech.netlify.app">smartsolve-tech.netlify.app</a> &nbsp;·&nbsp;
+    British Columbia, Canada
+  </p>
+  <p style="margin-top:1.5rem;font-size:0.75rem">© 2026 SmartSolve Technologies · Built with AI by students at Yorkville University</p>
+</footer>
+
+<script>
+function setChip(el, text) {
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('question-input').value = text;
+}
+
+async function handleSubmit(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submit-btn');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+  const form = document.getElementById('submit-form');
+  const data = new FormData(form);
+  try {
+    const res = await fetch(form.action, {
+      method: 'POST',
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    });
+    if (res.ok) {
+      form.style.display = 'none';
+      document.getElementById('chip-wrap').style.display = 'none';
+      document.getElementById('success-box').style.display = 'block';
+      document.getElementById('success-box').classList.add('show');
+    } else {
+      btn.textContent = 'Send my question →';
+      btn.disabled = false;
+      alert('Something went wrong. Please try again or email us at hello@smartsolve.tech');
+    }
+  } catch(err) {
+    btn.textContent = 'Send my question →';
+    btn.disabled = false;
+    alert('Connection error. Please try again.');
+  }
+}
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
